@@ -43,8 +43,8 @@ state_buf = np.zeros((1, 4))
 
 # Gets the current frame from the AirSim client for evaluation
 def get_image():
-    image_response = client.simGetImages([ImageRequest("0", AirSimImageType.Scene, False, False)])[0]
-    image1d = np.frombuffer(image_response.image_data_uint8, dtype=np.uint8)
+    image_response = client.simGetImages([ImageRequest(0, AirSimImageType.Scene, False, False)])[0]
+    image1d = np.fromstring(image_response.image_data_uint8, dtype=np.uint8)
     image_rgba = image1d.reshape(image_response.height, image_response.width, 3)
     return image_rgba[76:135, 0:255, 0:3].astype(float)
 
