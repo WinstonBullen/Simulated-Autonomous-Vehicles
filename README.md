@@ -12,3 +12,5 @@
 *AirSim_ConvNet* includes code for preprocessing, training, and testing a convolutional neural network for the AirSim Unreal Engine simulation.
 
 ![Running AirSim ConvNet](./AirSim_ConvNet/visuals/Running_AirSim_ConvNet.JPG)
+
+*AirSim_DeepRL* includes code for preprocessing, training, and testing a deep reinforcement learning model for the AirSim Unreal Engine simulation.
