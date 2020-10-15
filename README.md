@@ -17,4 +17,4 @@
 
 *DeepRacer_DeepRL* includes code for the reward function for a deep reinforcement learning model for the AWS DeepRacer simulation.
 
-![Training DeepRacer DeepRL](./DeepRacer_DeepRL/visuals/AWSDeepRacer.JPG)
+![Training DeepRacer DeepRL](./DeepRacer_DeepRL/visuals/DeepRacer.JPG)
