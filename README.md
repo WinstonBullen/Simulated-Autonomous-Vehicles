@@ -19,8 +19,6 @@
 
 ![Running AirSim ConvNet](./AirSim_ConvNet/visuals/Running_AirSim_ConvNet.JPG)
 
-*AirSim_DeepRL* includes code for preprocessing, training, and testing a deep reinforcement learning model for the AirSim Unreal Engine simulation.
-
 *DeepRacer_DeepRL* includes code for the reward function for a deep reinforcement learning model for the AWS DeepRacer simulation.
 
 ![Training DeepRacer DeepRL](./DeepRacer_DeepRL/visuals/DeepRacer.JPG)
