@@ -9,6 +9,12 @@
 
 **Projects:**
 
+*Udacity_ConvNet* includes code for preprocessing, training, and testing a convolutional neural network for the Udacity Unity simulation.
+
+![Running Udacity ConvNet](./Udacity_ConvNet/visuals/Running_Udacity_ConvNet.JPG)
+
+![Running Udacity ConvNet 2](./Udacity_ConvNet/visuals/Running_Udacity_ConvNet_2.JPG)
+
 *AirSim_ConvNet* includes code for preprocessing, training, and testing a convolutional neural network for the AirSim Unreal Engine simulation.
 
 ![Running AirSim ConvNet](./AirSim_ConvNet/visuals/Running_AirSim_ConvNet.JPG)
