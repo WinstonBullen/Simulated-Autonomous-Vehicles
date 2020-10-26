@@ -48,4 +48,4 @@ history = model.fit_generator(DataPreparation.batch_generator(input_train, targe
                               verbose=1,
                               shuffle=1)
 
-model.save('nvidia_model.h5')
+model.save('./models/nvidia_model.h5')

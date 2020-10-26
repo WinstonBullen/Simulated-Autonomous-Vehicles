@@ -49,4 +49,4 @@ history = model.fit_generator(DataPreparation.batch_generator(input_train, targe
                               verbose=1,
                               shuffle=1)
 
-model.save('custom_model_v1.h5')
+model.save('./models/custom_model_v1.h5')
