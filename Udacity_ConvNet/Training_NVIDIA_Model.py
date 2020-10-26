@@ -8,7 +8,7 @@ import os
 import matplotlib.pyplot as plt
 
 
-def custom_model():
+def nvidia_model():
     model = keras.models.Sequential()
     model.add(tf.keras.layers.Conv2D(24, kernel_size=5, strides=[2, 2], input_shape=(66, 200, 3), activation='elu'))
     model.add(tf.keras.layers.Conv2D(36, kernel_size=5, strides=[2, 2], activation='elu'))
@@ -28,7 +28,7 @@ def custom_model():
     return model
 
 
-model = custom_model()
+model = nvidia_model()
 print(model.summary())
 
 data_dir = './data'
