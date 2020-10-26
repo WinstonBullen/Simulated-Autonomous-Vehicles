@@ -1,10 +1,6 @@
 import keras
 import tensorflow as tf
-from keras.models import Sequential
 from keras.optimizers import Adam
-from keras.layers import Convolution2D, MaxPooling2D, Dropout, Flatten, Dense
-import ntpath
-from sklearn.utils import shuffle
 import DataPreparation
 from sklearn.model_selection import train_test_split
 import pandas as pd
@@ -59,4 +55,4 @@ plt.legend(['training', 'validation'])
 plt.title('Loss')
 plt.xlabel('Epoch')
 
-model.save('model.h5')
+model.save('nvidia_model.h5')

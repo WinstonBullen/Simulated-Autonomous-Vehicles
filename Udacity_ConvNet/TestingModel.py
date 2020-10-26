@@ -8,15 +8,13 @@ from io import BytesIO
 from PIL import Image
 import cv2
 
-model = load_model('model.h5')
-
 sio = socketio.Server()
 app = Flask(__name__)
-speed_limit = 10
+speed_limit = 20
 
 
 def img_preprocess(image):
-    image = image[60:135,:,:]
+    image = image[60:135, :, ]
     image = cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
     image = cv2.GaussianBlur(image, (3, 3), 0)
     image = cv2.resize(image, (200, 66))
@@ -33,7 +31,7 @@ def telemetry(sid, data):
     image = np.asarray([image])
     steering_angle = float(model.predict(image))
     throttle = 1.0 - speed/speed_limit
-    print('{} {} {}'.format(steering_angle, throttle, speed))
+    print('Steering Angle: {} Throttle: {} Speed: {}'.format(steering_angle, throttle, speed))
     send_control(steering_angle, throttle)
 
 
@@ -44,13 +42,13 @@ def connect(sid, environ):
 
 
 def send_control(steering_angle, throttle):
-    sio.emit('steer', data = {
+    sio.emit('steer', data={
         'steering_angle': steering_angle.__str__(),
         'throttle': throttle.__str__()
     })
 
 
 if __name__ == '__main__':
-    model = load_model('model.h5')
+    model = load_model('./models/nvidia_model.h5')
     app = socketio.Middleware(sio, app)
     eventlet.wsgi.server(eventlet.listen(('', 4567)), app)
