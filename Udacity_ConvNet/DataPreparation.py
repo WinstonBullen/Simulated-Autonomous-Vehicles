@@ -8,13 +8,13 @@ from sklearn.model_selection import train_test_split
 import matplotlib.image as mpimg
 from imgaug import augmenters as iaa
 
-data_dir = './data'
+data_dir = './hill_data'
 columns = ['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed']
 
 # Show head of csv file
 data = pd.read_csv(os.path.join(data_dir, 'driving_log.csv'), names=columns)
 pd.set_option('display.max_colwidth', -1)
-print(data.head())
+# print(data.head())
 
 # Plot steering angle histogram
 num_bins = 25
@@ -23,7 +23,7 @@ hist, bins = np.histogram(data['steering'], num_bins)
 center = (bins[:-1] + bins[1:]) * 0.5
 plt.bar(center, hist, width=0.05)
 plt.plot((np.min(data['steering']), np.max(data['steering'])), (samples_per_bin, samples_per_bin))
-plt.show()
+# plt.show()
 
 
 def load_img_steering(data_dir, df):
@@ -116,7 +116,3 @@ def batch_generator(image_paths, steering_angle, batch_size, isTraining):
             batch_img.append(img)
             batch_steering.append(steering)
         yield (np.asarray(batch_img), np.asarray(batch_steering))
-
-
-input_train_generated, target_train_generated = next(batch_generator(input_train, target_train, 1, 1))
-input_validation_generated, target_validation_generated = next(batch_generator(input_validation, target_validation, 1, 0))

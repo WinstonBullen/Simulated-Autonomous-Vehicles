@@ -4,6 +4,7 @@ import DataPreparation
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import os
+from keras.callbacks import EarlyStopping
 
 
 def custom_model_v1():
@@ -31,7 +32,7 @@ def custom_model_v1():
 model = custom_model_v1()
 print(model.summary())
 
-data_dir = './data'
+data_dir = './hill_data'
 columns = ['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed']
 data = pd.read_csv(os.path.join(data_dir, 'driving_log.csv'), names=columns)
 image_paths, steerings = DataPreparation.load_img_steering(data_dir + '/IMG', data)
@@ -40,13 +41,18 @@ input_train, input_validation, target_train, target_validation = train_test_spli
                                                                                   steerings,
                                                                                   test_size=0.2,
                                                                                   random_state=6)
+num_train_examples = len(input_train)
+num_validation_examples = len(input_validation)
+batch_size = 128
+early_stopping_callback = EarlyStopping(monitor='val_loss', patience=5, verbose=1)
 
-history = model.fit_generator(DataPreparation.batch_generator(input_train, target_train, 100, 1),
-                              steps_per_epoch=400,
-                              epochs=10,
-                              validation_data=DataPreparation.batch_generator(input_validation, target_validation, 100, 0),
-                              validation_steps=200,
+history = model.fit_generator(DataPreparation.batch_generator(input_train, target_train, batch_size, 1),
+                              steps_per_epoch=5 * num_train_examples//batch_size,
+                              epochs=20,
+                              callbacks=[early_stopping_callback],
+                              validation_data=DataPreparation.batch_generator(input_validation, target_validation, batch_size, 0),
+                              validation_steps=num_validation_examples//batch_size,
                               verbose=1,
                               shuffle=1)
 
-model.save('./models/custom_model_v1.h5')
+model.save('./models/custom_model_v1_hill.h5')
