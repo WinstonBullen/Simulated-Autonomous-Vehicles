@@ -6,6 +6,21 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 import os
 
+data_dir = './hill_data'
+columns = ['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed']
+data = pd.read_csv(os.path.join(data_dir, 'driving_log.csv'), names=columns)
+image_paths, steerings = DataPreparation.load_img_steering(data_dir + '/IMG', data)
+
+input_train, input_validation, target_train, target_validation = train_test_split(image_paths,
+                                                                                  steerings,
+                                                                                  test_size=0.2,
+                                                                                  random_state=6)
+
+num_train_examples = len(input_train)
+num_validation_examples = len(input_validation)
+batch_size = 100
+num_epochs = 10
+
 
 def nvidia_model():
     model = keras.models.Sequential()
@@ -30,21 +45,11 @@ def nvidia_model():
 model = nvidia_model()
 print(model.summary())
 
-data_dir = './hill_data'
-columns = ['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed']
-data = pd.read_csv(os.path.join(data_dir, 'driving_log.csv'), names=columns)
-image_paths, steerings = DataPreparation.load_img_steering(data_dir + '/IMG', data)
-
-input_train, input_validation, target_train, target_validation = train_test_split(image_paths,
-                                                                                  steerings,
-                                                                                  test_size=0.2,
-                                                                                  random_state=6)
-
-history = model.fit_generator(DataPreparation.batch_generator(input_train, target_train, 100, 1),
-                              steps_per_epoch=300,
-                              epochs=10,
-                              validation_data=DataPreparation.batch_generator(input_validation, target_validation, 100, 0),
-                              validation_steps=200,
+history = model.fit_generator(DataPreparation.batch_generator(input_train, target_train, batch_size, 1),
+                              steps_per_epoch=num_train_examples * 3 // batch_size,
+                              epochs=num_epochs,
+                              validation_data=DataPreparation.batch_generator(input_validation, target_validation, batch_size, 0),
+                              validation_steps=num_validation_examples * 3 // batch_size,
                               verbose=1,
                               shuffle=1)
 
