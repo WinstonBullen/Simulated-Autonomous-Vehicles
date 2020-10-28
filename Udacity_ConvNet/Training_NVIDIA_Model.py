@@ -30,7 +30,7 @@ def nvidia_model():
 model = nvidia_model()
 print(model.summary())
 
-data_dir = './data'
+data_dir = './hill_data'
 columns = ['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed']
 data = pd.read_csv(os.path.join(data_dir, 'driving_log.csv'), names=columns)
 image_paths, steerings = DataPreparation.load_img_steering(data_dir + '/IMG', data)

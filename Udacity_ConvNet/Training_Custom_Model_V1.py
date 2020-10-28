@@ -32,7 +32,7 @@ def custom_model_v1():
 model = custom_model_v1()
 print(model.summary())
 
-data_dir = './hill_data'
+data_dir = './better_hill_data'
 columns = ['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed']
 data = pd.read_csv(os.path.join(data_dir, 'driving_log.csv'), names=columns)
 image_paths, steerings = DataPreparation.load_img_steering(data_dir + '/IMG', data)
@@ -41,17 +41,18 @@ input_train, input_validation, target_train, target_validation = train_test_spli
                                                                                   steerings,
                                                                                   test_size=0.2,
                                                                                   random_state=6)
+
 num_train_examples = len(input_train)
 num_validation_examples = len(input_validation)
-batch_size = 128
+batch_size = 100
 early_stopping_callback = EarlyStopping(monitor='val_loss', patience=5, verbose=1)
 
 history = model.fit_generator(DataPreparation.batch_generator(input_train, target_train, batch_size, 1),
-                              steps_per_epoch=5 * num_train_examples//batch_size,
-                              epochs=20,
+                              steps_per_epoch=num_train_examples * 3 // batch_size,
+                              epochs=50,
                               callbacks=[early_stopping_callback],
                               validation_data=DataPreparation.batch_generator(input_validation, target_validation, batch_size, 0),
-                              validation_steps=num_validation_examples//batch_size,
+                              validation_steps=num_validation_examples * 3 // batch_size,
                               verbose=1,
                               shuffle=1)
 
