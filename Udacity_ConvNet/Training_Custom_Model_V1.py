@@ -67,4 +67,4 @@ history = model.fit_generator(DataPreparation.batch_generator(input_train, targe
 # Run tensorboard --logdir ./tensorboard_logs/custom_model_v1_hill_v2 in Terminal
 # Go to localhost:6006
 
-model.save('./models/custom_model_v1_hill_v2.h5')
+model.save('./models/custom_model_v1_hill.h5')
