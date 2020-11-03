@@ -6,7 +6,7 @@ import pandas as pd
 import os
 from keras.callbacks import EarlyStopping
 
-data_dir = './hill_data'
+data_dir = './combined_data'
 columns = ['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed']
 data = pd.read_csv(os.path.join(data_dir, 'driving_log.csv'), names=columns)
 image_paths, steering = DataPreparation.load_img_steering(data_dir + '/IMG', data)
@@ -18,6 +18,9 @@ input_train, input_validation, target_train, target_validation = train_test_spli
 
 num_train_examples = len(input_train)
 num_validation_examples = len(input_validation)
+print('Training Samples: ', num_train_examples)
+print('Validation Samples: ', num_validation_examples)
+
 batch_size = 100
 num_epochs = 100
 
@@ -48,7 +51,7 @@ model = custom_model_v1()
 print(model.summary())
 
 early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
-tensorboard_callback = tf.keras.callbacks.TensorBoard('./tensorboard_logs/custom_model_v1_hill_v2',
+tensorboard_callback = tf.keras.callbacks.TensorBoard('./tensorboard_logs/custom_model_v1_both_tracks',
                                                       histogram_freq=1,
                                                       write_graph=True,
                                                       write_grads=True,
@@ -56,15 +59,15 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard('./tensorboard_logs/custom
                                                       write_images=True)
 
 history = model.fit_generator(DataPreparation.batch_generator(input_train, target_train, batch_size, 1),
-                              steps_per_epoch=num_train_examples * 3 // batch_size,
+                              steps_per_epoch=num_train_examples * 2 // batch_size,
                               epochs=num_epochs,
                               callbacks=[early_stopping_callback, tensorboard_callback],
                               validation_data=DataPreparation.batch_generator(input_validation, target_validation, batch_size, 0),
-                              validation_steps=num_validation_examples * 3 // batch_size,
+                              validation_steps=num_validation_examples * 2 // batch_size,
                               verbose=1,
                               shuffle=1)
 
-# Run tensorboard --logdir ./tensorboard_logs/custom_model_v1_hill_v2 in Terminal
+# Run tensorboard --logdir ./tensorboard_logs/custom_model_v1_both_tracks in Terminal
 # Go to localhost:6006
 
-model.save('./models/custom_model_v1_hill.h5')
+model.save('./models/custom_model_v1_both_tracks.h5')

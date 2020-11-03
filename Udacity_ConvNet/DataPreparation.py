@@ -1,32 +1,12 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import cv2
-import pandas as pd
 import random
 import os
-from sklearn.model_selection import train_test_split
 import matplotlib.image as mpimg
 from imgaug import augmenters as iaa
 
-data_dir = './hill_data'
-columns = ['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed']
 
-# Show head of csv file
-data = pd.read_csv(os.path.join(data_dir, 'driving_log.csv'), names=columns)
-pd.set_option('display.max_colwidth', -1)
-# print(data.head())
-
-# Plot steering angle histogram
-num_bins = 25
-samples_per_bin = 400
-hist, bins = np.histogram(data['steering'], num_bins)
-center = (bins[:-1] + bins[1:]) * 0.5
-plt.bar(center, hist, width=0.05)
-plt.plot((np.min(data['steering']), np.max(data['steering'])), (samples_per_bin, samples_per_bin))
-# plt.show()
-
-
-def load_img_steering(data_dir, df):
+def load_img_steering(data_dir, data):
     image_path = []
     steering = []
     for i in range(len(data)):
@@ -41,16 +21,6 @@ def load_img_steering(data_dir, df):
     image_paths = np.asarray(image_path)
     steerings = np.asarray(steering)
     return image_paths, steerings
-
-
-image_paths, steerings = load_img_steering(data_dir + '/IMG', data)
-
-input_train, input_validation, target_train, target_validation = train_test_split(image_paths,
-                                                                                  steerings,
-                                                                                  test_size=0.2,
-                                                                                  random_state=6)
-print('Training Samples: ', len(input_train))
-print('Validation Samples: ', len(input_validation))
 
 
 def zoom(image):
